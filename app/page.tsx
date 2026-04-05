@@ -300,11 +300,11 @@ export default async function HomePage() {
                 Join the community
               </p>
               <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
-                A space for stories, ideas, and creative work.
+                Come to our in person events!{" "}
               </h2>
               <p className="mt-4 text-base leading-7 text-gray-900">
-                The homepage now pulls the newest magazines, newsletters, blogs,
-                and media projects directly from the database.
+                Follow us on Instagram @asianoutlook and submit to our
+                magazine!!!
               </p>
             </div>
 
