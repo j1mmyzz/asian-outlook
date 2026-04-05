@@ -1,93 +1,24 @@
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 
-const magazines = [
-  {
-    title: 'Fall 2025 "Lingering Shadows"',
-    description:
-      "A featured issue exploring memory, identity, and atmosphere through creative and visual work.",
-    href: "/magazines/fall-2025-lingering-shadows",
-    image:
-      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: 'Fall 2025 "Eternal"',
-    description:
-      "A curated collection of writing and art centered on continuity, legacy, and reflection.",
-    href: "/magazines/fall-2025-eternal",
-    image:
-      "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: 'Spring 2025 "Mythology"',
-    description:
-      "An issue inspired by folklore, storytelling, and reinterpretations of tradition.",
-    href: "/magazines/spring-2025-mythology",
-    image:
-      "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1200&q=80",
-  },
-];
+type ContentItem = {
+  id: number;
+  type: string;
+  title: string;
+  slug: string;
+  description: string | null;
+  cover_image_path: string | null;
+  created_at: string;
+};
 
-const newsletters = [
-  {
-    title: "The Monthly Outlook",
-    description:
-      "Community updates, highlights, events, and features from Asian Outlook.",
-    href: "/newsletters/monthly-outlook-december-2025",
-  },
-  {
-    title: "The Monthly Outlook",
-    description:
-      "A snapshot of what the organization has been creating and planning.",
-    href: "/newsletters/monthly-outlook-october-2025",
-  },
-  {
-    title: "September 2025",
-    description:
-      "A monthly roundup of announcements, programming, and student voices.",
-    href: "/newsletters/september-2025",
-  },
-];
-
-const blogs = [
-  {
-    title: "Why is it so hard to wake up",
-    description: "Personal reflection and student-centered lifestyle writing.",
-    href: "/blogs/why-is-it-so-hard-to-wake-up",
-  },
-  {
-    title: "Halfway to 20: I Don’t Have Lifestyle Tips, Only Baking Tips",
-    description:
-      "A warm, personality-driven blog blending reflection with practical creativity.",
-    href: "/blogs/halfway-to-20-baking-tips",
-  },
-  {
-    title: "How to Master Binghamton University’s Buses",
-    description:
-      "Campus-life writing that helps readers navigate everyday student experiences.",
-    href: "/blogs/how-to-master-binghamton-university-buses",
-  },
-];
-
-const mediaItems = [
-  {
-    title: "Podcast Spotlight",
-    description:
-      "Listen to conversations, stories, and creative audio projects from the team.",
-    href: "/media-production/podcast-spotlight",
-  },
-  {
-    title: "Student Voices",
-    description:
-      "Media projects focused on expression, identity, and community storytelling.",
-    href: "/media-production/student-voices",
-  },
-  {
-    title: "Creative Features",
-    description:
-      "Interviews, audio narratives, and multimedia experiments from contributors.",
-    href: "/media-production/creative-features",
-  },
-];
+function getCoverUrl(
+  supabaseUrl: string | undefined,
+  path: string | null,
+): string | null {
+  if (!supabaseUrl || !path) return null;
+  if (path.startsWith("http")) return path;
+  return `${supabaseUrl}/storage/v1/object/public/covers/${path}`;
+}
 
 function SectionHeader({
   eyebrow,
@@ -125,61 +56,68 @@ function SectionHeader({
 }
 
 function FeaturedMagazineCard({
-  title,
-  description,
-  href,
-  image,
+  item,
+  imageUrl,
 }: {
-  title: string;
-  description: string;
-  href: string;
-  image: string;
+  item: ContentItem;
+  imageUrl: string | null;
 }) {
   return (
     <Link
-      href={href}
+      href={`/magazines/${item.slug}`}
       className="group overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
     >
-      <div className="relative h-72 overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-        />
+      <div className="relative min-h-[320px] overflow-hidden bg-neutral-100">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={item.title}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-neutral-200 text-sm font-medium uppercase tracking-[0.2em] text-neutral-500">
+            Magazine
+          </div>
+        )}
+
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-white/80">
             Magazine
           </p>
-          <h3 className="text-2xl font-semibold leading-tight">{title}</h3>
+          <h3 className="text-2xl font-semibold leading-tight">{item.title}</h3>
         </div>
       </div>
 
       <div className="p-6">
-        <p className="text-sm leading-6 text-neutral-600">{description}</p>
+        <p className="text-sm leading-6 text-neutral-600">
+          {item.description || "View Issue"}
+        </p>
       </div>
     </Link>
   );
 }
 
 function SimpleCard({
-  title,
-  description,
-  href,
+  item,
+  hrefBase,
+  fallbackLabel,
 }: {
-  title: string;
-  description: string;
-  href: string;
+  item: ContentItem;
+  hrefBase: string;
+  fallbackLabel: string;
 }) {
   return (
     <Link
-      href={href}
+      href={`${hrefBase}/${item.slug}`}
       className="group rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-neutral-900 hover:shadow-lg"
     >
       <h3 className="text-xl font-semibold text-neutral-900 transition group-hover:text-blue-900">
-        {title}
+        {item.title || fallbackLabel}
       </h3>
-      <p className="mt-3 text-sm leading-6 text-neutral-600">{description}</p>
+      <p className="mt-3 text-sm leading-6 text-neutral-600">
+        {item.description || fallbackLabel}
+      </p>
       <span className="mt-5 inline-block text-sm font-medium text-neutral-900">
         Read more →
       </span>
@@ -187,7 +125,42 @@ function SimpleCard({
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = await createClient();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+  const { data: magazines } = await supabase
+    .from("content_items")
+    .select("id, type, title, slug, description, cover_image_path, created_at")
+    .eq("type", "magazine")
+    .eq("is_published", true)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  const { data: newsletters } = await supabase
+    .from("content_items")
+    .select("id, type, title, slug, description, cover_image_path, created_at")
+    .eq("type", "newsletter")
+    .eq("is_published", true)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  const { data: blogs } = await supabase
+    .from("content_items")
+    .select("id, type, title, slug, description, cover_image_path, created_at")
+    .eq("type", "blog")
+    .eq("is_published", true)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  const { data: mediaItems } = await supabase
+    .from("content_items")
+    .select("id, type, title, slug, description, cover_image_path, created_at")
+    .eq("type", "media")
+    .eq("is_published", true)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
   return (
     <main className="bg-slate-100 text-neutral-900">
       <section className="relative overflow-hidden border-b border-neutral-200 bg-blue-950">
@@ -238,13 +211,17 @@ export default function HomePage() {
         <SectionHeader
           eyebrow="Featured"
           title="Recent Magazines"
-          description="This section can later map over the top 3 magazine entries from your database. For now, these cards stay static."
+          description="The latest published magazine issues from the database."
           href="/magazines"
         />
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {magazines.map((item) => (
-            <FeaturedMagazineCard key={item.title} {...item} />
+          {(magazines ?? []).map((item) => (
+            <FeaturedMagazineCard
+              key={item.id}
+              item={item}
+              imageUrl={getCoverUrl(supabaseUrl, item.cover_image_path)}
+            />
           ))}
         </div>
       </section>
@@ -254,13 +231,18 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="Updates"
             title="Latest Newsletters"
-            description="Later, this can become a live query for the 3 newest newsletter entries in Supabase."
+            description="Recent newsletter entries from the database."
             href="/newsletters"
           />
 
           <div className="grid gap-6 md:grid-cols-3">
-            {newsletters.map((item) => (
-              <SimpleCard key={item.title + item.href} {...item} />
+            {(newsletters ?? []).map((item) => (
+              <SimpleCard
+                key={item.id}
+                item={item}
+                hrefBase="/newsletters"
+                fallbackLabel="Newsletter"
+              />
             ))}
           </div>
         </div>
@@ -271,13 +253,18 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="Writing"
             title="From the Blog"
-            description="A preview area for blog posts, reflections, and student-centered writing."
+            description="Recent blog entries from the database."
             href="/blogs"
           />
 
           <div className="grid gap-6 md:grid-cols-3">
-            {blogs.map((item) => (
-              <SimpleCard key={item.title} {...item} />
+            {(blogs ?? []).map((item) => (
+              <SimpleCard
+                key={item.id}
+                item={item}
+                hrefBase="/blogs"
+                fallbackLabel="Blog"
+              />
             ))}
           </div>
         </div>
@@ -288,13 +275,18 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="Multimedia"
             title="Media Production"
-            description="This section can later pull the latest featured podcasts, interviews, or other media projects."
+            description="Recent media entries from the database."
             href="/media-production"
           />
 
           <div className="grid gap-6 md:grid-cols-3">
-            {mediaItems.map((item) => (
-              <SimpleCard key={item.title} {...item} />
+            {(mediaItems ?? []).map((item) => (
+              <SimpleCard
+                key={item.id}
+                item={item}
+                hrefBase="/media-production"
+                fallbackLabel="Media"
+              />
             ))}
           </div>
         </div>
@@ -307,13 +299,12 @@ export default function HomePage() {
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-black">
                 Join the community
               </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-4xl text-gray-900">
+              <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl">
                 A space for stories, ideas, and creative work.
               </h2>
               <p className="mt-4 text-base leading-7 text-gray-900">
-                As your database gets connected, this homepage can automatically
-                surface the newest magazines, newsletters, blogs, and media
-                projects every time the site loads.
+                The homepage now pulls the newest magazines, newsletters, blogs,
+                and media projects directly from the database.
               </p>
             </div>
 
@@ -326,7 +317,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/search"
-                className="rounded-full border bg-white border-white/25 px-6 py-3 text-sm font-medium text-neutral-900 transition hover:bg-white/10"
+                className="rounded-full border border-white/25 bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition hover:bg-white/10"
               >
                 Search the Site
               </Link>

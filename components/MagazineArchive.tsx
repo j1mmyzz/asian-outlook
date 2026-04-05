@@ -50,7 +50,7 @@ function MagazineCard({ item, admin }: { item: ContentItem; admin: boolean }) {
             href={`/magazines/${item.slug}`}
             className="inline-block text-sm font-medium text-neutral-900"
           >
-            View issue
+            View Issue
           </Link>
 
           {admin && (
