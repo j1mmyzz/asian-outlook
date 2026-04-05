@@ -178,9 +178,6 @@ export default async function MagazinesPage() {
       <section className="mx-auto max-w-7xl px-6 pb-20 md:px-10 md:pb-24">
         <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-blue-950">
-              Archive
-            </p>
             <h2 className="text-3xl font-bold tracking-tight text-neutral-950">
               Past Issues
             </h2>
