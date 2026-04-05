@@ -176,9 +176,7 @@ export default function MagazineFlipbook({ pdfUrl }: { pdfUrl: string }) {
         setPdfNativeWidth(viewport.width);
         setPdfNativeHeight(viewport.height);
       }
-    } catch {
-      // keep fallback ratio
-    }
+    } catch {}
   }
 
   async function toggleFullscreen() {
@@ -266,13 +264,13 @@ export default function MagazineFlipbook({ pdfUrl }: { pdfUrl: string }) {
   return (
     <div
       ref={fullscreenRef}
-      className={`w-full py-8 ${
+      className={`relative w-full py-8 ${
         isFullscreen
           ? "flex min-h-screen flex-col justify-center bg-slate-100 text-white"
           : ""
       }`}
     >
-      <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
+      <div className="relative z-20 mb-6 flex flex-wrap items-center justify-center gap-3 px-4">
         <button
           onClick={goPrev}
           className="rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-900 transition hover:border-neutral-900 hover:bg-neutral-900 hover:text-white"
@@ -315,7 +313,7 @@ export default function MagazineFlipbook({ pdfUrl }: { pdfUrl: string }) {
 
       <div
         ref={zoomSurfaceRef}
-        className="flex w-full justify-center overflow-x-auto px-4"
+        className="relative z-10 flex w-full justify-center overflow-x-auto px-4"
         style={{
           touchAction: isFullscreen ? "pinch-zoom pan-x pan-y" : "auto",
         }}
