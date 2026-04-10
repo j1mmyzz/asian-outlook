@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaInstagram, FaTiktok, FaFacebookF, FaLink } from "react-icons/fa";
+import { FaInstagram, FaTiktok, FaLink } from "react-icons/fa";
 export default function Footer() {
   return (
     <footer className="border-t border-neutral-200 bg-neutral-950 text-white">
