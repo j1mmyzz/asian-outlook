@@ -21,6 +21,8 @@ export default function Footer() {
                   href="https://www.instagram.com/asianoutlook/"
                   className="text-white transition"
                   target="_blank"
+                  aria-label="Asian Outlook Instagram"
+                  aria-hidden="true"
                 >
                   <FaInstagram />
                 </a>
@@ -28,6 +30,8 @@ export default function Footer() {
                   href="https://www.tiktok.com/@bingasianoutlook"
                   className="text-white transition"
                   target="_blank"
+                  aria-label="Asian Outlook Tiktok"
+                  aria-hidden="true"
                 >
                   <FaTiktok />
                 </a>
@@ -36,6 +40,8 @@ export default function Footer() {
                   href="https://linktr.ee/asianoutlook"
                   target="_blank"
                   className="text-white transition"
+                  aria-label="Asian Outlook LinkTree"
+                  aria-hidden="true"
                 >
                   <FaLink />
                 </a>
