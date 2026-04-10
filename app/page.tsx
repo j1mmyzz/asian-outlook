@@ -169,9 +169,9 @@ export default async function HomePage() {
         <div className="grid min-h-180 items-stretch lg:grid-cols-[0.7fr_1.3fr]">
           <div className="flex items-center px-6 py-20 md:px-10 md:py-28 lg:px-16">
             <div className="max-w-2xl">
-              <p className="mb-4 text-[40px] font-semibold uppercase tracking-[0.25em] text-white">
+              <h1 className="mb-4 text-[40px] font-semibold uppercase tracking-[0.25em] text-white">
                 Asian Outlook
-              </p>
+              </h1>
 
               <p className="mt-6 text-lg leading-8 text-white">
                 As the creative, literary and political arm of the Asian Student
