@@ -22,7 +22,6 @@ export default function Footer() {
                   className="text-white transition"
                   target="_blank"
                   aria-label="Asian Outlook Instagram"
-                  aria-hidden="true"
                 >
                   <FaInstagram />
                 </a>
@@ -31,7 +30,6 @@ export default function Footer() {
                   className="text-white transition"
                   target="_blank"
                   aria-label="Asian Outlook Tiktok"
-                  aria-hidden="true"
                 >
                   <FaTiktok />
                 </a>
@@ -41,7 +39,6 @@ export default function Footer() {
                   target="_blank"
                   className="text-white transition"
                   aria-label="Asian Outlook LinkTree"
-                  aria-hidden="true"
                 >
                   <FaLink />
                 </a>
