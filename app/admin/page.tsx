@@ -19,17 +19,19 @@ export default async function AdminPage() {
   if (!admin) redirect("/");
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-12">
-      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+    <html lang="en">
+      <main className="mx-auto max-w-5xl px-6 py-12">
+        <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
 
-      <div className="grid gap-4">
-        <a href="/admin/content" className="border p-4 rounded-xl">
-          Manage Content
-        </a>
-        <a href="/admin/team" className="border p-4 rounded-xl">
-          Manage Team
-        </a>
-      </div>
-    </main>
+        <div className="grid gap-4">
+          <a href="/admin/content" className="border p-4 rounded-xl">
+            Manage Content
+          </a>
+          <a href="/admin/team" className="border p-4 rounded-xl">
+            Manage Team
+          </a>
+        </div>
+      </main>
+    </html>
   );
 }

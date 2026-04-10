@@ -128,19 +128,23 @@ export default function EditPage({
 
   if (errorMessage && !form) {
     return (
-      <main className="mx-auto max-w-3xl px-6 py-12">
-        <p role="alert" className="text-red-600">
-          {errorMessage}
-        </p>
-      </main>
+      <html lang="en">
+        <main className="mx-auto max-w-3xl px-6 py-12">
+          <p role="alert" className="text-red-600">
+            {errorMessage}
+          </p>
+        </main>
+      </html>
     );
   }
 
   if (!form) {
     return (
-      <main className="mx-auto max-w-3xl px-6 py-12">
-        <p aria-live="polite">Loading...</p>
-      </main>
+      <html lang="en">
+        <main className="mx-auto max-w-3xl px-6 py-12">
+          <p aria-live="polite">Loading...</p>
+        </main>
+      </html>
     );
   }
 
@@ -148,132 +152,134 @@ export default function EditPage({
   const slugHelpId = "slug-help";
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12">
-      <h1 className="mb-6 text-3xl font-bold">Edit Content</h1>
+    <html lang="en">
+      <main className="mx-auto max-w-3xl px-6 py-12">
+        <h1 className="mb-6 text-3xl font-bold">Edit Content</h1>
 
-      <form
-        onSubmit={handleUpdate}
-        className="space-y-4 rounded-xl border bg-white p-6"
-        noValidate
-      >
-        <div>
-          <label htmlFor="title" className="mb-2 block text-sm font-medium">
-            Title
-          </label>
-          <input
-            id="title"
-            name="title"
-            value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-            className="w-full rounded border px-3 py-2"
-            placeholder="Title"
-            required
-            aria-describedby={errorMessage ? errorId : undefined}
-            aria-invalid={errorMessage ? true : false}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="slug" className="mb-2 block text-sm font-medium">
-            Slug
-          </label>
-          <input
-            id="slug"
-            name="slug"
-            value={form.slug}
-            onChange={(e) => setForm({ ...form, slug: e.target.value })}
-            className="w-full rounded border px-3 py-2"
-            placeholder="Slug"
-            required
-            aria-describedby={`${slugHelpId}${errorMessage ? ` ${errorId}` : ""}`}
-            aria-invalid={errorMessage ? true : false}
-          />
-          <p id={slugHelpId} className="mt-1 text-sm text-neutral-600">
-            Edit the slug carefully since it affects the page URL.
-          </p>
-        </div>
-
-        {form.type === "magazine" && (
-          <>
-            <div className="space-y-2">
-              <label
-                htmlFor="replace-pdf"
-                className="block text-sm font-medium text-neutral-800"
-              >
-                Replace PDF
-              </label>
-              <input
-                id="replace-pdf"
-                name="pdf"
-                type="file"
-                accept="application/pdf"
-                onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
-                className="w-full"
-                aria-describedby={
-                  form.pdf_path
-                    ? `current-pdf${errorMessage ? ` ${errorId}` : ""}`
-                    : errorMessage
-                      ? errorId
-                      : undefined
-                }
-                aria-invalid={errorMessage ? true : false}
-              />
-              {form.pdf_path && (
-                <p id="current-pdf" className="text-sm text-neutral-500">
-                  Current PDF: {form.pdf_path}
-                </p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <label
-                htmlFor="replace-cover"
-                className="block text-sm font-medium text-neutral-800"
-              >
-                Replace Cover Image
-              </label>
-              <input
-                id="replace-cover"
-                name="coverImage"
-                type="file"
-                accept="image/*"
-                onChange={(e) => setCoverFile(e.target.files?.[0] || null)}
-                className="w-full"
-                aria-describedby={
-                  form.cover_image_path
-                    ? `current-cover${errorMessage ? ` ${errorId}` : ""}`
-                    : errorMessage
-                      ? errorId
-                      : undefined
-                }
-                aria-invalid={errorMessage ? true : false}
-              />
-              {form.cover_image_path && (
-                <p id="current-cover" className="text-sm text-neutral-500">
-                  Current cover: {form.cover_image_path}
-                </p>
-              )}
-            </div>
-          </>
-        )}
-
-        <div
-          id={errorId}
-          aria-live="polite"
-          className={errorMessage ? "text-sm text-red-600" : "sr-only"}
+        <form
+          onSubmit={handleUpdate}
+          className="space-y-4 rounded-xl border bg-white p-6"
+          noValidate
         >
-          {errorMessage || " "}
-        </div>
+          <div>
+            <label htmlFor="title" className="mb-2 block text-sm font-medium">
+              Title
+            </label>
+            <input
+              id="title"
+              name="title"
+              value={form.title}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
+              className="w-full rounded border px-3 py-2"
+              placeholder="Title"
+              required
+              aria-describedby={errorMessage ? errorId : undefined}
+              aria-invalid={errorMessage ? true : false}
+            />
+          </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          aria-busy={loading}
-          className="rounded bg-blue-950 px-4 py-2 text-white disabled:opacity-60"
-        >
-          {loading ? "Updating..." : "Update"}
-        </button>
-      </form>
-    </main>
+          <div>
+            <label htmlFor="slug" className="mb-2 block text-sm font-medium">
+              Slug
+            </label>
+            <input
+              id="slug"
+              name="slug"
+              value={form.slug}
+              onChange={(e) => setForm({ ...form, slug: e.target.value })}
+              className="w-full rounded border px-3 py-2"
+              placeholder="Slug"
+              required
+              aria-describedby={`${slugHelpId}${errorMessage ? ` ${errorId}` : ""}`}
+              aria-invalid={errorMessage ? true : false}
+            />
+            <p id={slugHelpId} className="mt-1 text-sm text-neutral-600">
+              Edit the slug carefully since it affects the page URL.
+            </p>
+          </div>
+
+          {form.type === "magazine" && (
+            <>
+              <div className="space-y-2">
+                <label
+                  htmlFor="replace-pdf"
+                  className="block text-sm font-medium text-neutral-800"
+                >
+                  Replace PDF
+                </label>
+                <input
+                  id="replace-pdf"
+                  name="pdf"
+                  type="file"
+                  accept="application/pdf"
+                  onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
+                  className="w-full"
+                  aria-describedby={
+                    form.pdf_path
+                      ? `current-pdf${errorMessage ? ` ${errorId}` : ""}`
+                      : errorMessage
+                        ? errorId
+                        : undefined
+                  }
+                  aria-invalid={errorMessage ? true : false}
+                />
+                {form.pdf_path && (
+                  <p id="current-pdf" className="text-sm text-neutral-500">
+                    Current PDF: {form.pdf_path}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="replace-cover"
+                  className="block text-sm font-medium text-neutral-800"
+                >
+                  Replace Cover Image
+                </label>
+                <input
+                  id="replace-cover"
+                  name="coverImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setCoverFile(e.target.files?.[0] || null)}
+                  className="w-full"
+                  aria-describedby={
+                    form.cover_image_path
+                      ? `current-cover${errorMessage ? ` ${errorId}` : ""}`
+                      : errorMessage
+                        ? errorId
+                        : undefined
+                  }
+                  aria-invalid={errorMessage ? true : false}
+                />
+                {form.cover_image_path && (
+                  <p id="current-cover" className="text-sm text-neutral-500">
+                    Current cover: {form.cover_image_path}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
+
+          <div
+            id={errorId}
+            aria-live="polite"
+            className={errorMessage ? "text-sm text-red-600" : "sr-only"}
+          >
+            {errorMessage || " "}
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            aria-busy={loading}
+            className="rounded bg-blue-950 px-4 py-2 text-white disabled:opacity-60"
+          >
+            {loading ? "Updating..." : "Update"}
+          </button>
+        </form>
+      </main>
+    </html>
   );
 }

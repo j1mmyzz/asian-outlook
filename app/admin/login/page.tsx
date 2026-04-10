@@ -29,65 +29,70 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md px-6 py-20">
-      <h1 className="mb-6 text-3xl font-bold">Admin Login</h1>
+    <html lang="en">
+      <main className="mx-auto max-w-md px-6 py-20">
+        <h1 className="mb-6 text-3xl font-bold">Admin Login</h1>
 
-      <form
-        onSubmit={handleLogin}
-        className="space-y-4 rounded-xl border p-6"
-        noValidate
-      >
-        <div>
-          <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            className="w-full rounded border px-4 py-3"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-describedby={errorMessage ? "login-error" : undefined}
-            aria-invalid={errorMessage ? true : false}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="password" className="mb-2 block text-sm font-medium">
-            Password
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            className="w-full rounded border px-4 py-3"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            aria-describedby={errorMessage ? "login-error" : undefined}
-            aria-invalid={errorMessage ? true : false}
-          />
-        </div>
-
-        <div
-          id="login-error"
-          aria-live="polite"
-          className={errorMessage ? "text-sm text-red-600" : "sr-only"}
+        <form
+          onSubmit={handleLogin}
+          className="space-y-4 rounded-xl border p-6"
+          noValidate
         >
-          {errorMessage || " "}
-        </div>
+          <div>
+            <label htmlFor="email" className="mb-2 block text-sm font-medium">
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              className="w-full rounded border px-4 py-3"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              aria-describedby={errorMessage ? "login-error" : undefined}
+              aria-invalid={errorMessage ? true : false}
+            />
+          </div>
 
-        <button
-          type="submit"
-          className="w-full rounded bg-black py-3 text-white"
-        >
-          Login
-        </button>
-      </form>
-    </main>
+          <div>
+            <label
+              htmlFor="password"
+              className="mb-2 block text-sm font-medium"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              className="w-full rounded border px-4 py-3"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              aria-describedby={errorMessage ? "login-error" : undefined}
+              aria-invalid={errorMessage ? true : false}
+            />
+          </div>
+
+          <div
+            id="login-error"
+            aria-live="polite"
+            className={errorMessage ? "text-sm text-red-600" : "sr-only"}
+          >
+            {errorMessage || " "}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full rounded bg-black py-3 text-white"
+          >
+            Login
+          </button>
+        </form>
+      </main>
+    </html>
   );
 }

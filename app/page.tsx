@@ -32,26 +32,28 @@ function SectionHeader({
   href: string;
 }) {
   return (
-    <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-      <div className="max-w-2xl">
-        <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-blue-950">
-          {eyebrow}
-        </p>
-        <h2 className="text-3xl font-bold tracking-tight text-neutral-900 md:text-4xl">
-          {title}
-        </h2>
-        <p className="mt-3 text-base leading-7 text-neutral-600">
-          {description}
-        </p>
-      </div>
+    <html lang="en">
+      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-2xl">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-blue-950">
+            {eyebrow}
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-neutral-900 md:text-4xl">
+            {title}
+          </h2>
+          <p className="mt-3 text-base leading-7 text-neutral-600">
+            {description}
+          </p>
+        </div>
 
-      <Link
-        href={href}
-        className="inline-flex w-fit items-center rounded-full border border-neutral-300 px-5 py-2.5 text-sm font-medium text-neutral-800 transition hover:border-neutral-900 hover:bg-neutral-900 hover:text-white"
-      >
-        View all
-      </Link>
-    </div>
+        <Link
+          href={href}
+          className="inline-flex w-fit items-center rounded-full border border-neutral-300 px-5 py-2.5 text-sm font-medium text-neutral-800 transition hover:border-neutral-900 hover:bg-neutral-900 hover:text-white"
+        >
+          View all
+        </Link>
+      </div>
+    </html>
   );
 }
 
