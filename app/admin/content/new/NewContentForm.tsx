@@ -45,7 +45,7 @@ export default function NewContentForm({
     return { pdfPath, coverPath };
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
@@ -102,6 +102,8 @@ export default function NewContentForm({
     }
   }
 
+  const errorId = "new-content-error";
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
       <h1 className="mb-6 text-3xl font-bold">New Content</h1>
@@ -109,73 +111,129 @@ export default function NewContentForm({
       <form
         onSubmit={handleSubmit}
         className="space-y-4 rounded-xl border bg-white p-6"
+        noValidate
       >
-        <select
-          value={form.type}
-          onChange={(e) =>
-            setForm((prev) => ({ ...prev, type: e.target.value }))
-          }
-          className="w-full rounded border px-3 py-2"
-          required
-        >
-          <option value="" disabled>
-            Select type
-          </option>
-          <option value="magazine">Magazine</option>
-          <option value="blog">Blog</option>
-          <option value="newsletter">Newsletter</option>
-          <option value="media">Media</option>
-        </select>
+        <div>
+          <label
+            htmlFor="content-type"
+            className="mb-2 block text-sm font-medium"
+          >
+            Content Type
+          </label>
+          <select
+            id="content-type"
+            name="type"
+            value={form.type}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, type: e.target.value }))
+            }
+            className="w-full rounded border px-3 py-2"
+            required
+            aria-describedby={errorMessage ? errorId : undefined}
+            aria-invalid={errorMessage ? true : false}
+          >
+            <option value="" disabled>
+              Select type
+            </option>
+            <option value="magazine">Magazine</option>
+            <option value="blog">Blog</option>
+            <option value="newsletter">Newsletter</option>
+            <option value="media">Media</option>
+          </select>
+        </div>
 
-        <input
-          value={form.title}
-          onChange={(e) =>
-            setForm((prev) => ({ ...prev, title: e.target.value }))
-          }
-          placeholder="Title"
-          className="w-full rounded border px-3 py-2"
-          required
-        />
+        <div>
+          <label htmlFor="title" className="mb-2 block text-sm font-medium">
+            Title
+          </label>
+          <input
+            id="title"
+            name="title"
+            value={form.title}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, title: e.target.value }))
+            }
+            placeholder="Title"
+            className="w-full rounded border px-3 py-2"
+            required
+            aria-describedby={errorMessage ? errorId : undefined}
+            aria-invalid={errorMessage ? true : false}
+          />
+        </div>
 
-        <input
-          value={form.slug}
-          onChange={(e) =>
-            setForm((prev) => ({ ...prev, slug: e.target.value }))
-          }
-          placeholder="Slug (example: semester-year-issueNumber, spring-2025-1)"
-          className="w-full rounded border px-3 py-2"
-          required
-        />
+        <div>
+          <label htmlFor="slug" className="mb-2 block text-sm font-medium">
+            Slug
+          </label>
+          <input
+            id="slug"
+            name="slug"
+            value={form.slug}
+            onChange={(e) =>
+              setForm((prev) => ({ ...prev, slug: e.target.value }))
+            }
+            placeholder="semester-year-issueNumber, spring-2025-1"
+            className="w-full rounded border px-3 py-2"
+            required
+            aria-describedby="slug-help"
+            aria-invalid={errorMessage ? true : false}
+          />
+          <p id="slug-help" className="mt-1 text-sm text-gray-600">
+            Example: semester-year-issueNumber, spring-2025-1
+          </p>
+        </div>
 
         {form.type === "magazine" && (
           <>
             <div>
-              <label className="text-sm font-medium">PDF</label>
+              <label
+                htmlFor="magazine-pdf"
+                className="mb-2 block text-sm font-medium"
+              >
+                PDF
+              </label>
               <input
+                id="magazine-pdf"
+                name="pdf"
                 type="file"
                 accept="application/pdf"
                 onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
                 className="w-full"
                 required
+                aria-describedby={errorMessage ? errorId : undefined}
+                aria-invalid={errorMessage ? true : false}
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium">Cover Image</label>
+              <label
+                htmlFor="cover-image"
+                className="mb-2 block text-sm font-medium"
+              >
+                Cover Image
+              </label>
               <input
+                id="cover-image"
+                name="coverImage"
                 type="file"
                 accept="image/*"
                 onChange={(e) => setCoverFile(e.target.files?.[0] || null)}
                 className="w-full"
                 required
+                aria-describedby={errorMessage ? errorId : undefined}
+                aria-invalid={errorMessage ? true : false}
               />
             </div>
           </>
         )}
 
-        {errorMessage && (
-          <div className="text-sm text-red-600">{errorMessage}</div>
-        )}
+        <div
+          id={errorId}
+          aria-live="polite"
+          className={errorMessage ? "text-sm text-red-600" : "sr-only"}
+        >
+          {errorMessage || " "}
+        </div>
 
         <button
           type="submit"

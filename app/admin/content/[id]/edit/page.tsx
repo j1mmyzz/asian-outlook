@@ -80,7 +80,7 @@ export default function EditPage({
     return { nextPdfPath, nextCoverPath };
   }
 
-  async function handleUpdate(e: React.FormEvent) {
+  async function handleUpdate(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!form) return;
 
@@ -129,7 +129,9 @@ export default function EditPage({
   if (errorMessage && !form) {
     return (
       <main className="mx-auto max-w-3xl px-6 py-12">
-        <p className="text-red-600">{errorMessage}</p>
+        <p role="alert" className="text-red-600">
+          {errorMessage}
+        </p>
       </main>
     );
   }
@@ -137,10 +139,13 @@ export default function EditPage({
   if (!form) {
     return (
       <main className="mx-auto max-w-3xl px-6 py-12">
-        <p>Loading...</p>
+        <p aria-live="polite">Loading...</p>
       </main>
     );
   }
+
+  const errorId = "edit-content-error";
+  const slugHelpId = "slug-help";
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
@@ -149,52 +154,102 @@ export default function EditPage({
       <form
         onSubmit={handleUpdate}
         className="space-y-4 rounded-xl border bg-white p-6"
+        noValidate
       >
-        <input
-          value={form.title}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
-          className="w-full rounded border px-3 py-2"
-          placeholder="Title"
-        />
+        <div>
+          <label htmlFor="title" className="mb-2 block text-sm font-medium">
+            Title
+          </label>
+          <input
+            id="title"
+            name="title"
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            className="w-full rounded border px-3 py-2"
+            placeholder="Title"
+            required
+            aria-describedby={errorMessage ? errorId : undefined}
+            aria-invalid={errorMessage ? true : false}
+          />
+        </div>
 
-        <input
-          value={form.slug}
-          onChange={(e) => setForm({ ...form, slug: e.target.value })}
-          className="w-full rounded border px-3 py-2"
-          placeholder="Slug"
-        />
+        <div>
+          <label htmlFor="slug" className="mb-2 block text-sm font-medium">
+            Slug
+          </label>
+          <input
+            id="slug"
+            name="slug"
+            value={form.slug}
+            onChange={(e) => setForm({ ...form, slug: e.target.value })}
+            className="w-full rounded border px-3 py-2"
+            placeholder="Slug"
+            required
+            aria-describedby={`${slugHelpId}${errorMessage ? ` ${errorId}` : ""}`}
+            aria-invalid={errorMessage ? true : false}
+          />
+          <p id={slugHelpId} className="mt-1 text-sm text-neutral-600">
+            Edit the slug carefully since it affects the page URL.
+          </p>
+        </div>
 
         {form.type === "magazine" && (
           <>
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-neutral-800">
+              <label
+                htmlFor="replace-pdf"
+                className="block text-sm font-medium text-neutral-800"
+              >
                 Replace PDF
               </label>
               <input
+                id="replace-pdf"
+                name="pdf"
                 type="file"
                 accept="application/pdf"
                 onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
                 className="w-full"
+                aria-describedby={
+                  form.pdf_path
+                    ? `current-pdf${errorMessage ? ` ${errorId}` : ""}`
+                    : errorMessage
+                      ? errorId
+                      : undefined
+                }
+                aria-invalid={errorMessage ? true : false}
               />
               {form.pdf_path && (
-                <p className="text-sm text-neutral-500">
+                <p id="current-pdf" className="text-sm text-neutral-500">
                   Current PDF: {form.pdf_path}
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-neutral-800">
+              <label
+                htmlFor="replace-cover"
+                className="block text-sm font-medium text-neutral-800"
+              >
                 Replace Cover Image
               </label>
               <input
+                id="replace-cover"
+                name="coverImage"
                 type="file"
                 accept="image/*"
                 onChange={(e) => setCoverFile(e.target.files?.[0] || null)}
                 className="w-full"
+                aria-describedby={
+                  form.cover_image_path
+                    ? `current-cover${errorMessage ? ` ${errorId}` : ""}`
+                    : errorMessage
+                      ? errorId
+                      : undefined
+                }
+                aria-invalid={errorMessage ? true : false}
               />
               {form.cover_image_path && (
-                <p className="text-sm text-neutral-500">
+                <p id="current-cover" className="text-sm text-neutral-500">
                   Current cover: {form.cover_image_path}
                 </p>
               )}
@@ -202,14 +257,19 @@ export default function EditPage({
           </>
         )}
 
-        {errorMessage && (
-          <div className="text-sm text-red-600">{errorMessage}</div>
-        )}
+        <div
+          id={errorId}
+          aria-live="polite"
+          className={errorMessage ? "text-sm text-red-600" : "sr-only"}
+        >
+          {errorMessage || " "}
+        </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="rounded bg-blue-950 px-4 py-2 text-white"
+          aria-busy={loading}
+          className="rounded bg-blue-950 px-4 py-2 text-white disabled:opacity-60"
         >
           {loading ? "Updating..." : "Update"}
         </button>

@@ -133,6 +133,8 @@ export default function Navbar() {
           onClick={() => setMenuOpen((prev) => !prev)}
           className="inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white p-2 text-neutral-900 shadow-sm xl:hidden"
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
         >
           {menuOpen ? (
             <svg
